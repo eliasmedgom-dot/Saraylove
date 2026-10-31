@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para ti, con amor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vino: #2b0f26;
+    --vino-2: #3d1635;
+    --petalo: #f4b6c2;
+    --rosa: #e0678a;
+    --vela: #f2c879;
+    --marfil: #fff4f0;
+    --linea: rgba(244, 182, 194, .22);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Lora", Georgia, serif;
+    background: radial-gradient(ellipse at 20% 0%, var(--vino-2), var(--vino) 60%);
+    color: var(--marfil);
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    min-height: 100vh;
+  }
+
+  /* Menú */
+  nav {
+    padding: 2.2rem 1.6rem;
+    border-right: 1px solid var(--linea);
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+  .titulo {
+    font-family: "Pinyon Script", cursive;
+    font-size: 3rem;
+    line-height: 1.05;
+    color: var(--petalo);
+    margin-bottom: .4rem;
+  }
+  .lema {
+    font-style: italic;
+    color: rgba(255, 244, 240, .7);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  .corazon {
+    display: inline-block;
+    color: var(--rosa);
+    animation: latido 1.6s ease-in-out infinite;
+  }
+  @keyframes latido {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.25); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.18); }
+  }
+
+  ul { list-style: none; display: grid; gap: .7rem; }
+  .item {
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    background: rgba(255, 244, 240, .04);
+    border: 1px solid var(--linea);
+    border-left: 3px solid var(--rosa);
+    border-radius: 4px 14px 14px 4px;
+    padding: .9rem 1.1rem;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, transform .2s;
+  }
+  .item:hover { background: rgba(244, 182, 194, .12); transform: translateX(4px); }
+  .item:focus-visible { outline: 2px solid var(--vela); outline-offset: 2px; }
+  .item[aria-current="true"] {
+    background: rgba(244, 182, 194, .18);
+    border-left-color: var(--vela);
+  }
+  .item strong { display: block; font-weight: 600; font-size: 1.05rem; margin-bottom: .15rem; }
+  .item span { font-size: .88rem; color: rgba(255, 244, 240, .68); line-height: 1.4; }
+
+  /* Visor */
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem 1.4rem;
+    border-bottom: 1px solid var(--linea);
+    min-height: 3.4rem;
+  }
+  .barra p { font-style: italic; color: var(--petalo); }
+  .barra a {
+    color: var(--vela);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    font-size: .92rem;
+    white-space: nowrap;
+  }
+  .barra a[hidden] { display: none; }
+  .barra a:focus-visible { outline: 2px solid var(--vela); outline-offset: 3px; }
+
+  .escenario { position: relative; flex: 1; min-height: 60vh; }
+  iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+    background: #fff;
+  }
+  iframe[hidden] { display: none; }
+  .vacio {
+    position: absolute; inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: .6rem;
+  }
+  .vacio .grande { font-family: "Pinyon Script", cursive; font-size: 2.6rem; color: var(--petalo); }
+  .vacio p { color: rgba(255, 244, 240, .7); max-width: 32ch; line-height: 1.5; }
+  .vacio[hidden] { display: none; }
+
+  @media (max-width: 760px) {
+    body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    nav { border-right: 0; border-bottom: 1px solid var(--linea); max-height: 46vh; padding: 1.4rem 1.1rem; }
+    .titulo { font-size: 2.4rem; }
+    .lema { margin-bottom: 1.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .corazon { animation: none; }
+    .item { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Menú de archivos de amor">
+  <h1 class="titulo">Para ti, con amor <span class="corazon" aria-hidden="true">♥</span></h1>
+  <p class="lema">Elige uno y ábrelo con calma.</p>
+  <ul id="menu"></ul>
+</nav>
+
+<main>
+  <div class="barra">
+    <p id="actual">Nada abierto todavía</p>
+    <a id="externo" href="#" target="_blank" rel="noopener" hidden>Abrir en otra pestaña</a>
+  </div>
+  <div class="escenario">
+    <div class="vacio" id="vacio">
+      <div class="grande">Elige un regalo</div>
+      <p>Toca una de las opciones del menú y se abrirá aquí.</p>
+    </div>
+    <iframe id="visor" title="Archivo de amor" hidden></iframe>
+  </div>
+</main>
+
+<script>
+  // ✏️ EDITA ESTA LISTA: pon el nombre real de tus archivos HTML.
+  // Deben estar en la misma carpeta que este archivo (o usa una ruta como "amor/carta.html").
+  const ARCHIVOS = [
+    { titulo: "Mi carta de amor",     archivo: "carta.html",     descripcion: "Unas palabras que llevaba tiempo queriendo decirte." },
+    { titulo: "Nuestro poema",        archivo: "poema.html",     descripcion: "Versos escritos pensando en ti." },
+    { titulo: "Nuestra historia",     archivo: "historia.html",  descripcion: "Los momentos que más recuerdo." },
+    { titulo: "Razones para quererte", archivo: "razones.html",  descripcion: "Cada una es verdad." },
+    { titulo: "Una sorpresa",         archivo: "sorpresa.html",  descripcion: "Ábrela cuando estés sola." }
+  ];
+
+  const menu = document.getElementById("menu");
+  const visor = document.getElementById("visor");
+  const vacio = document.getElementById("vacio");
+  const actual = document.getElementById("actual");
+  const externo = document.getElementById("externo");
+
+  ARCHIVOS.forEach((a) => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.className = "item";
+    b.type = "button";
+    b.innerHTML = "<strong></strong><span></span>";
+    b.querySelector("strong").textContent = a.titulo;
+    b.querySelector("span").textContent = a.descripcion;
+    b.addEventListener("click", () => abrir(a, b));
+    li.appendChild(b);
+    menu.appendChild(li);
+  });
+
+  function abrir(a, boton) {
+    document.querySelectorAll(".item").forEach((i) => i.removeAttribute("aria-current"));
+    boton.setAttribute("aria-current", "true");
+    visor.src = a.archivo;
+    visor.hidden = false;
+    vacio.hidden = true;
+    actual.textContent = a.titulo;
+    externo.href = a.archivo;
+    externo.hidden = false;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>Una carta para mi bb ❤️</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sacramento', cursive;
+      background: linear-gradient(135deg, #fbe4e7, #f1e3d3);
+      overflow: hidden;
+    }
+
+    /* SOBRE */
+    .valentines-day {
+      position: relative;
+      width: 360px;
+      height: 300px;
+      cursor: pointer;
+      transition: opacity .8s ease, transform .8s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 200px;
+      top: 60px;
+      left: 0;
+      background: #ff9494;
+      border-radius: 4px;
+      filter: drop-shadow(0 10px 15px #0002);
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 180px solid transparent;
+      border-right: 180px solid transparent;
+      border-top: 120px solid #ffb0b0;
+      z-index: 3;
+    }
+
+    /* CORAZÓN DEL SOBRE */
+    .heart {
+      position: absolute;
+      top: 55px;
+      left: 117px;
+      width: 65px;
+      height: 65px;
+      background: #e01911;
+      transform: rotate(-45deg);
+      z-index: 4;
+      transition: transform .5s ease;
+      filter: drop-shadow(0 4px 8px #0002);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 65px;
+      height: 65px;
+      background: #e01911;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -32px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: 32px;
+    }
+
+    /* PARTE DELANTERA */
+    .front {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 180px solid #fbd2d2;
+      border-right: 180px solid #fbd2d2;
+      border-top: 105px solid transparent;
+      border-bottom: 95px solid transparent;
+      z-index: 5;
+    }
+
+    .front::after {
+      content: "";
+      position: absolute;
+      left: -180px;
+      top: -105px;
+      width: 0;
+      height: 0;
+      border-left: 180px solid transparent;
+      border-right: 180px solid transparent;
+      border-bottom: 105px solid #fce7e9;
+    }
+
+    .text {
+      position: absolute;
+      top: 195px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: #a94452;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      line-height: 1.8;
+      z-index: 6;
+    }
+
+    .valentines-day:hover .heart {
+      transform: translateY(-15px) rotate(-45deg);
+    }
+
+    .hint {
+      position: absolute;
+      bottom: -10px;
+      width: 100%;
+      text-align: center;
+      font-size: 22px;
+      color: #a94452;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+
+    /* CARTA ROMÁNTICA */
+    #card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(820px, 92vw);
+      height: min(540px, 85vh);
+      display: flex;
+      visibility: hidden;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.1);
+      z-index: 10;
+      filter: drop-shadow(0 12px 25px #0002);
+    }
+
+    .side {
+      width: 50%;
+      height: 100%;
+      padding: 25px;
+      overflow: hidden;
+    }
+
+    .side.one {
+      background: linear-gradient(90deg, #fff, #fff4f5);
+      border-radius: 8px 0 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 2px dashed #efb5bf;
+    }
+
+    .side.one::before {
+      content: "♥";
+      font-size: clamp(80px, 15vw, 180px);
+      color: #e96a83;
+      animation: heartbeat 1.5s infinite;
+      text-shadow: 0 5px 15px #e96a8333;
+    }
+
+    .side.two {
+      background: linear-gradient(135deg, #fffafa, #ffe9ed);
+      border-radius: 0 8px 8px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    #card h2 {
+      margin: 0 0 20px;
+      font-size: clamp(27px, 4vw, 42px);
+      color: #e96a83;
+      text-align: center;
+    }
+
+    #card p {
+      font-size: clamp(17px, 2.2vw, 24px);
+      line-height: 1.5;
+      color: #69434a;
+      margin: 8px 0;
+      overflow-wrap: break-word;
+    }
+
+    .signature {
+      text-align: right;
+      color: #d94c70 !important;
+      font-size: clamp(20px, 2.5vw, 28px) !important;
+      margin-top: 18px !important;
+    }
+
+    /* BOTÓN CERRAR */
+    .close-btn {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 50%;
+      background: #e96a83;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 3px 10px #0003;
+    }
+
+    .close-btn:hover {
+      background: #c93d5d;
+    }
+
+    /* BOTÓN MÚSICA */
+    #music-btn {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 50;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 18px;
+      background: #e96a83;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px #0002;
+    }
+
+    #music-btn:hover {
+      background: #c93d5d;
+    }
+
+    /* REPRODUCTOR */
+    #music-player {
+      position: fixed;
+      bottom: 70px;
+      right: 12px;
+      width: 280px;
+      max-width: calc(100vw - 24px);
+      aspect-ratio: 16 / 9;
+      z-index: 45;
+      display: none;
+      border: 2px solid #e96a83;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 5px 20px #0003;
+    }
+
+    #music-player iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+    /* CORAZONES FLOTANTES */
+    .floating-heart {
+      position: fixed;
+      bottom: -40px;
+      color: #e96a83;
+      pointer-events: none;
+      z-index: 30;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% { opacity: .9; }
+      90% { opacity: .7; }
+
+      100% {
+        transform: translateY(-110vh) rotate(40deg);
+        opacity: 0;
+      }
+    }
+
+    /* MÓVILES */
+    @media (max-width: 600px) {
+      .valentines-day {
+        transform: scale(.85);
+      }
+
+      #card {
+        width: 92vw;
+        height: 78vh;
+      }
+
+      .side {
+        padding: 12px;
+      }
+
+      .side.one { width: 28%; }
+      .side.two { width: 72%; }
+
+      #card h2 {
+        font-size: 26px;
+        margin-bottom: 12px;
+      }
+
+      #card p {
+        font-size: 17px;
+        line-height: 1.4;
+      }
+
+      .signature {
+        font-size: 20px !important;
+      }
+
+      .close-btn {
+        top: -12px;
+        right: -8px;
+      }
+
+      #music-btn {
+        bottom: 12px;
+        right: 12px;
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+
+      #music-player {
+        bottom: 58px;
+        right: 8px;
+        width: 240px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .side { padding: 8px; }
+      #card h2 { font-size: 22px; }
+      #card p { font-size: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SOBRE -->
+  <div
+    class="valentines-day"
+    id="envelope"
+    role="button"
+    tabindex="0"
+    aria-label="Abrir carta de San Valentín"
+  >
+    <div class="envelope"></div>
+    <div class="heart"></div>
+    <div class="front"></div>
+
+    <div class="text">
+      PARA:<br>
+      MI BB ❤️
+    </div>
+
+    <div class="hint">Haz clic para abrir 💌</div>
+  </div>
+
+  <!-- CARTA -->
+  <div
+    id="card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="card-title"
+  >
+    <button
+      class="close-btn"
+      id="closeCard"
+      aria-label="Cerrar carta"
+    >×</button>
+
+    <div class="side one"></div>
+
+    <div class="side two">
+      <h2 id="card-title">Para mi amorcito ❤️</h2>
+
+      <p>Querido BB...</p>
+
+      <p>
+        «Toda rosa tiene sus espinas. Tú muestra cuáles son las tuyas
+        y yo te mostraré unas manos dispuestas a sangrar por ti».
+      </p>
+
+      <p class="signature">
+        Te ama,<br>
+        Tu Neni 💋
+      </p>
+    </div>
+  </div>
+
+  <!-- REPRODUCTOR DE YOUTUBE -->
+  <div id="music-player">
+    <iframe
+      id="youtube-player"
+      title="Nuestra canción romántica"
+      src="about:blank"
+      allow="autoplay; encrypted-media; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- BOTÓN DE MÚSICA -->
+  <button id="music-btn" type="button">
+    🎵 Reproducir nuestra canción
+  </button>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const card = document.getElementById('card');
+    const closeBtn = document.getElementById('closeCard');
+    const musicBtn = document.getElementById('music-btn');
+    const musicPlayer = document.getElementById('music-player');
+    const youtubePlayer = document.getElementById('youtube-player');
+
+    // ID DE TU CANCIÓN
+    const videoId = '6N3bpNh4bAI';
+
+    let isOpen = false;
+    let musicPlaying = false;
+    let heartInterval = null;
+
+    // REPRODUCIR MÚSICA
+    function startMusic() {
+      if (musicPlaying) return;
+
+      musicPlayer.style.display = 'block';
+
+      const params = new URLSearchParams({
+        autoplay: '1',
+        playsinline: '1',
+        loop: '1',
+        playlist: videoId
+      });
+
+      youtubePlayer.src =
+        'https://www.youtube.com/embed/' +
+        videoId + '?' + params.toString();
+
+      musicPlaying = true;
+      musicBtn.textContent = '⏹ Detener música';
+    }
+
+    // DETENER MÚSICA
+    function stopMusic() {
+      youtubePlayer.src = 'about:blank';
+      musicPlayer.style.display = 'none';
+
+      musicPlaying = false;
+      musicBtn.textContent = '🎵 Reproducir nuestra canción';
+    }
+
+    musicBtn.addEventListener('click', () => {
+      if (musicPlaying) {
+        stopMusic();
+      } else {
+        startMusic();
+      }
+    });
+
+    // ABRIR CARTA
+    function openCard() {
+      if (isOpen) return;
+
+      isOpen = true;
+
+      envelope.style.opacity = '0';
+      envelope.style.transform = 'translateY(50px) scale(.7)';
+
+      setTimeout(() => {
+        envelope.style.visibility = 'hidden';
+        card.style.visibility = 'visible';
+
+        card.animate([
+          {
+            opacity: 0,
+            transform: 'translate(-50%, -50%) scale(.1)'
+          },
+          {
+            opacity: 1,
+            transform: 'translate(-50%, -50%) scale(1.05)',
+            offset: .75
+          },
+          {
+            opacity: 1,
+            transform: 'translate(-50%, -50%) scale(1)'
+          }
+        ], {
+          duration: 1000,
+          easing: 'ease-out',
+          fill: 'forwards'
+        });
+
+        startHearts();
+        closeBtn.focus();
+      }, 650);
+    }
+
+    // CERRAR CARTA
+    function closeCard() {
+      if (!isOpen) return;
+
+      isOpen = false;
+      stopHearts();
+
+      card.animate([
+        {
+          opacity: 1,
+          transform: 'translate(-50%, -50%) scale(1)'
+        },
+        {
+          opacity: 0,
+          transform: 'translate(-50%, -50%) scale(.1)'
+        }
+      ], {
+        duration: 450,
+        easing: 'ease-in',
+        fill: 'forwards'
+      });
+
+      setTimeout(() => {
+        card.style.visibility = 'hidden';
+
+        envelope.style.visibility = 'visible';
+        envelope.style.opacity = '0';
+        envelope.style.transform = 'translateY(30px) scale(.8)';
+
+        requestAnimationFrame(() => {
+          envelope.style.opacity = '1';
+          envelope.style.transform = 'translateY(0) scale(1)';
+        });
+      }, 450);
+    }
+
+    envelope.addEventListener('click', openCard);
+
+    envelope.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openCard();
+      }
+    });
+
+    closeBtn.addEventListener('click', closeCard);
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeCard();
+      }
+    });
+
+    // CORAZONES FLOTANTES
+    function createHeart() {
+      if (!isOpen) return;
+
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = Math.random() > .5 ? '♥' : '💕';
+
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize =
+        (15 + Math.random() * 25) + 'px';
+
+      heart.style.animationDuration =
+        (4 + Math.random() * 4) + 's';
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 8500);
+    }
+
+    function startHearts() {
+      stopHearts();
+      heartInterval = setInterval(createHeart, 350);
+    }
+
+    function stopHearts() {
+      if (heartInterval) {
+        clearInterval(heartInterval);
+        heartInterval = null;
+      }
+
+      document.querySelectorAll('.floating-heart').forEach(heart => {
+        heart.remove();
+      });
+    }
+  </script>
+
+</body>
+</html>
+
